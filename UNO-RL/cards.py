@@ -3,9 +3,10 @@ import random
 colours = ["red", "green", "blue", "yellow"]
 
 class Card:
-    def __init__(self, colour, value):
+    def __init__(self, colour, value, score):
         self.colour = colour
         self.value = value
+        self.score = score
 
     def __str__(self) -> str:
         return self.colour + '_' + str(self.value)
@@ -21,10 +22,10 @@ class Deck:
         wildcards = ["colour", "plus4"]
         action = ["skip", "reverse", "plus2"]
 
-        cards_zero = [Card(colour, 0) for colour in colours]
-        cards_numbers = [Card(colour, value) for colour in colours for value in range(1,10)]*2
-        cards_actions = [Card(colour, value) for colour in colours for value in action]*2
-        cards_wildcards = [Card("wild", value) for value in wildcards]*4
+        cards_zero = [Card(colour, 0, 0) for colour in colours]
+        cards_numbers = [Card(colour, value, value) for colour in colours for value in range(1,10)]*2
+        cards_actions = [Card(colour, value, 25) for colour in colours for value in action]*2
+        cards_wildcards = [Card("wild", value, 50) for value in wildcards]*4
 
         self.cards = cards_zero + cards_numbers + cards_actions + cards_wildcards
     
@@ -65,10 +66,10 @@ class Deck:
         while len(self.cards_pile) < 1 or self.cards_pile[-1].value not in range(0,10):
             self.discard(self.draw_card())
 
-    def deal_cards(self, players):
+    def deal_cards(self, list_of_players):
         for x in range(0,7):
-            for player in list(players.keys()):
-                players[player].add_to_hand(self.draw_card())
+            for player in list_of_players:
+                player.add_to_hand(self.draw_card())
 
 def show_cards_list(list: list[Card]):
     cards = []

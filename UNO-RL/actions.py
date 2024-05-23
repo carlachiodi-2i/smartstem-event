@@ -28,31 +28,42 @@ def reverse_order(play_direction):
     else:
         play_direction = 1
 
-def colour_chosen_validation(chosen_colour):
-    if chosen_colour == '' or chosen_colour == 'random':
-        return Card(random.choice(colours),None)
-    elif not chosen_colour in colours:
-        return False
-    else:
+def get_colour_chosen(chosen_colour):
+    if chosen_colour in colours:
         return Card(chosen_colour,None)
-    
-def colour_choice(player):
-    if player.bot:
-        return colour_chosen_validation('random')
     else:
-        next_colour = str(input('Please, select a colour for the next round. The choices are: random, red, blue, green or yellow.')).lower()
-        return colour_chosen_validation(next_colour)
+        return Card(random.choice(colours), None, 0)
+    
+def colour_choice():
+    next_colour = str(input('Please, select a colour for the next round. The choices are: random, red, blue, green or yellow.')).lower()
+    return get_colour_chosen(next_colour)
 
-def choose_colour(deck, player):
-    next_colour = colour_choice(player)
-    
-    while next_colour is False:
-        next_colour = colour_choice()
-    
+def choose_colour(deck, player, choice):
+    if player.bot:
+        choice = 'random'
+    next_colour = get_colour_chosen(choice)
     deck.discard(next_colour)
+    
 
 def evaluate_card_played(deck):
     last_card = deck.get_last_discarded()
     # Evaluate if the card on the table is an action or wildcard, assing its value to the action for next turn (plus2, plus4, skip, reverse, colour)
     if isinstance(last_card.value, str):
         return last_card.value
+    
+def count_colours(hand):
+    count = {'R': 0, 'G': 0, 'Y': 0, 'B': 0, 'W': 0}
+    count['R'] = len([card for card in hand if card.colour == 'red'])
+    count['G'] = len([card for card in hand if card.colour == 'green'])
+    count['Y'] = len([card for card in hand if card.colour == 'yellow'])
+    count['B'] = len([card for card in hand if card.colour == 'blue'])
+    count['W'] = len([card for card in hand if card.colour == 'wild'])
+
+    return count
+
+def predominant(count):
+    return [keys for keys,values in count.items() if values == max(count.values())]
+
+def analyse_hand(hand):
+    count = count_colours(hand)
+    return count, predominant(count)
