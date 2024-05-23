@@ -30,6 +30,6 @@ It will open a window with the game and another with the plot of scores. Over ti
 Install dependencies and run the code:
 ```
 pip install -r requirements.txt
-python uno.py
+python agent.py
 ```
 
