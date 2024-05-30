@@ -33,3 +33,7 @@ pip install -r requirements.txt
 python agent.py
 ```
 
+## Workshop
+
+Webpage design: https://www.figma.com/design/5z0ipOkaMEqWPHXjAPQXnx/Game-Store-Web-(Community)?node-id=0-1&t=5PrnxnRJV9G6Cfkg-0
+Needs a Figma account to open it

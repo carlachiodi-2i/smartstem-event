@@ -34,7 +34,8 @@ class Turn:
         self.chosen_card = None
         print(f'The card on the table is {str(self.card_on_pile)}. It is {str(self.player)} turn.')
         self.find_playable()
-        print(f'{str(self.player)} has {len(self.player.playable_cards)} playable cards', show_cards_list(self.player.playable_cards))
+        if str(self.player) == 'Player-1':
+            print(f'{str(self.player)} has {len(self.player.hand)} cards: {self.player.show_hand()}')
         self.same_colour = [card for card in self.player.playable_cards if card.colour == self.card_on_pile.colour]
         self.same_value = [card for card in self.player.playable_cards if card.value == self.card_on_pile.value]
         self.wildcard = [card for card in self.player.playable_cards if card.colour == "wild"]
